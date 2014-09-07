@@ -1,0 +1,10 @@
+c:\_CoffeeWheat\__New\MarketLoader\MarketLoader\obj\Debug\MarketLoader.csprojResolveAssemblyReference.cache
+c:\_CoffeeWheat\__New\MarketLoader\MarketLoader\bin\Debug\MarketLoader.exe
+c:\_CoffeeWheat\__New\MarketLoader\MarketLoader\bin\Debug\MarketLoader.pdb
+c:\_CoffeeWheat\__New\MarketLoader\MarketLoader\obj\Debug\MarketLoader.exe
+c:\_CoffeeWheat\__New\MarketLoader\MarketLoader\obj\Debug\MarketLoader.pdb
+c:\_CoffeeWheat\__New\MarketLoader\MarketLoader\bin\Debug\CommandLine.dll
+c:\_CoffeeWheat\__New\MarketLoader\MarketLoader\bin\Debug\CommandLine.xml
+C:\_CoffeeWheat\__New\MarketLoader\MarketLoader\bin\Debug\DocumentFormat.OpenXml.dll
+C:\_CoffeeWheat\__New\MarketLoader\MarketLoader\obj\Debug\MarketLoader.Resource.resources
+C:\_CoffeeWheat\__New\MarketLoader\MarketLoader\obj\Debug\MarketLoader.csproj.GenerateResource.Cache
