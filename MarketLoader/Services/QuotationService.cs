@@ -8,10 +8,14 @@ namespace MarketLoader.Services
 {
     internal class QuotationService : IService
     {
-        internal event Downloading Download;
+        private readonly IRobotProxy _robot;
+        public event Downloading Download;
 
-        internal delegate void Downloading(object sender, string code);
-        
+        public QuotationService(IRobotProxy robot)
+        {
+            _robot = robot;
+        }
+
         /// <summary>
         /// Gets the historical data for specified symbol in format like KC, CC etc;        
         /// </summary>
@@ -23,20 +27,17 @@ namespace MarketLoader.Services
             foreach (var code in yearlyCodes)
             {
                 OnDownload(code);
-                quotes.AddRange(BarChartProxy.GetHistoricalData(code, Period.Weekly, BarChartProxy.FrameSize.Largest));                    
+                quotes.AddRange(_robot.GetHistoricalData(code, Period.Weekly, BarChartProxy.FrameSize.Largest));                    
             }            
             return new List<Quote>(quotes).OrderBy(d => d.DateTime);            
         }
-
-        
-
         
         public IEnumerable<Market> GetWeeklyDataForAllSymbols()
         {
             return ContractSpecification.Data.Select(d => new Market(d, GetWeeklyData(d.Symbol)));
         }
 
-        
+
         private IEnumerable<string> GetExpirationMonths(ContractSpecification contractSpecification)
         {
             var codes = new List<string>();
@@ -47,7 +48,6 @@ namespace MarketLoader.Services
             codes.Add(GetNearestExpirationMonth(contractSpecification));
             return codes;
         }
-
 
         private string GetNearestExpirationMonth(ContractSpecification contractSpecification)
         {
@@ -67,8 +67,5 @@ namespace MarketLoader.Services
                 Download(this, code);
             }
         }
-
     }
-
-    
 }

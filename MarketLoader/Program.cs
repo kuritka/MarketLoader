@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CommandLine;
 using MarketLoader.Configuration;
@@ -8,6 +7,7 @@ using MarketLoader.Entities;
 using MarketLoader.Formatters;
 using MarketLoader.Infrastructure;
 using MarketLoader.Services;
+using Ninject;
 
 
 namespace MarketLoader
@@ -15,18 +15,19 @@ namespace MarketLoader
     class Program
     {
         static void Main(string[] args)
-        {
+        {            
             var options = new CommandLineOptions();
             if (Parser.Default.ParseArguments(args, options))
-            {
+            {                
                 DownloadQuotes(options);            
             }        
         }
 
         private static void DownloadQuotes(CommandLineOptions options)
         {
+            var kernel = new StandardKernel(new DownloaderModule(options));            
             ContractSpecification contractSpecification;
-            var service = new QuotationService();            
+            var service = kernel.Get<IService>();
             service.Download += Inform;
             IEnumerable<Market> markets;            
             if (options.Symbol.ToLowerInvariant() == "all")
@@ -42,8 +43,7 @@ namespace MarketLoader
                 WriteWrongMarketMessage();
                 return;
             }
-            var formatter = FormatterFactory.CreateFormatter(new FileInfo(options.OutputFile));
-            formatter.Format(markets);
+            kernel.Get<FormatterFactory>().Create().Format(markets);              
         }
 
 
@@ -57,7 +57,7 @@ namespace MarketLoader
 
         private static void Inform(object sender, string code)
         {            
-            Console.WriteLine("Downloading " + code);
+            Console.WriteLine("Downloading ->" + code);
         }
     }
 }

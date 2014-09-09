@@ -11,7 +11,7 @@ namespace MarketLoader.WebRobots.Barchart.com
     partial class BarChartProxy
     {
         // Sorry barchart.com :D
-        private static string GetChart(string contractCode, string address, FrameSize frameSize, Period periodSize, List<int> map)
+        private  string GetChart(string contractCode, string address, FrameSize frameSize, Period periodSize, List<int> map)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace MarketLoader.WebRobots.Barchart.com
         }
 
 
-        private static BarchartQuote ParseHistoriaclDeliverAreaNode(XmlReader xmlReader)
+        private  BarchartQuote ParseHistoriaclDeliverAreaNode(XmlReader xmlReader)
         {
             var contractDataText = xmlReader.GetAttribute("onmousemove");
             if (string.IsNullOrEmpty(contractDataText)) return new BarchartQuote();
@@ -37,7 +37,7 @@ namespace MarketLoader.WebRobots.Barchart.com
             return MakeStockItemDataFromStockItemArray(contractDataText);
         }
 
-        private static BarchartQuote MakeStockItemDataFromStockItemArray(string areaText)
+        private  BarchartQuote MakeStockItemDataFromStockItemArray(string areaText)
         {
             var crate = new BarchartQuote();
             if (areaText.StartsWith("showOHLCTooltip(event,") || areaText.StartsWith("showStudyTooltip(event,"))
@@ -75,7 +75,7 @@ namespace MarketLoader.WebRobots.Barchart.com
         /// Makes list of final period items from crates.
         /// there are 4x more crates then final items
         /// </summary>        
-        private static List<Quote> MakeChartPeriodList(IEnumerable<BarchartQuote> crates)
+        private  List<Quote> MakeChartPeriodList(IEnumerable<BarchartQuote> crates)
         {
             var chartPeriodList = new List<Quote>();
             var ochcCrates = crates.GroupBy(d => d.DateTime);
@@ -114,7 +114,7 @@ namespace MarketLoader.WebRobots.Barchart.com
         /// <summary>
         /// Gets the name of the picture.
         /// </summary>        
-        private static string GetPictureName(string chartData)
+        private  string GetPictureName(string chartData)
         {
             var imgId = chartData.Remove(0, chartData.IndexOf("cache/", StringComparison.Ordinal) + 6);
             return imgId.Substring(0, imgId.IndexOf("\"", StringComparison.Ordinal));

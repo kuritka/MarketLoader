@@ -9,16 +9,21 @@ using MarketLoader.Infrastructure;
 namespace MarketLoader.WebRobots.Barchart.com
 {
 
+    interface IRobotProxy
+    {
+        List<Quote> GetHistoricalData(string contractCode, Period periodSize, BarChartProxy.FrameSize frameSize);
+    }
+
+
     /// <summary>
     /// Reads information from barchart.com
     /// </summary>
-    internal static partial class BarChartProxy
+    internal partial class BarChartProxy : IRobotProxy
     {
-
         /// <summary>
         /// Gets the historical data.
         /// </summary>        
-        public static List<Quote> GetHistoricalData(string contractCode,Period periodSize, FrameSize frameSize)
+        public List<Quote> GetHistoricalData(string contractCode,Period periodSize, FrameSize frameSize)
         {         
             contractCode = contractCode.Replace(" ", string.Empty);
             var address = GetChartPath(contractCode, periodSize, frameSize,new List<int>());
@@ -35,7 +40,7 @@ namespace MarketLoader.WebRobots.Barchart.com
 
 
 
-        private static XmlReader GetXmlReader(string contractCode, string address)
+        private  XmlReader GetXmlReader(string contractCode, string address)
         {
             var chartData = string.IsNullOrEmpty(address) ? GetClearChartData(contractCode) : GetClearChartData(new Uri(address));
             chartData = chartData.Replace(")\">", ")\"/>");
@@ -55,7 +60,7 @@ namespace MarketLoader.WebRobots.Barchart.com
         /// <param name="frameSize">Size of the frame.</param>
         /// <param name="movingAverages">add indicators higher than 1</param>
         /// <returns></returns>
-        public static string GetChart(string contractCode, Period periodSize, FrameSize frameSize, List<int> movingAverages)
+        public  string GetChart(string contractCode, Period periodSize, FrameSize frameSize, List<int> movingAverages)
         {
             //http://www.barchart.com/chart.php?sym=KCZ10&indicators=
             //http://www.barchart.com/chart.php?sym={0}&style=technical{1}&d=M&sd=&ed=&size=M&log=0&t=BAR&v=2&g=1&evnt=1&late=1&o1=&o2=&o3=&sh=100{2}&txtDate=#jump            
@@ -67,7 +72,7 @@ namespace MarketLoader.WebRobots.Barchart.com
         /// <summary>
         /// Gets the chart path with ma selective period or frame
         /// </summary>     
-        private static string GetChartPath(string contractCode, Period periodSize, FrameSize frameSize, List<int> movingAverages)
+        private  string GetChartPath(string contractCode, Period periodSize, FrameSize frameSize, List<int> movingAverages)
         {
             var period = string.Empty;
             var indicatorString = string.Empty;

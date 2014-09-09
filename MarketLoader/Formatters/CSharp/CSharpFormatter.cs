@@ -53,14 +53,6 @@ namespace MarketLoader.Formatters.CSharp
             lines.Add("\t}");
             lines.Add("}");
             return lines;
-        }
-
-
-        //private IEnumerable<string> ReadClassDefinition()
-        //{
-        //    File.Open("Entities.txt")
-        //}
-
-
+        }    
     }
 }

@@ -5,17 +5,24 @@ using MarketLoader.Formatters.Excel;
 
 namespace MarketLoader.Formatters
 {
-    internal static class FormatterFactory
+    internal class FormatterFactory
     {
-        public static IFormatter CreateFormatter(FileInfo file)
+        private FileInfo _file;
+
+        public FormatterFactory(FileInfo file)
         {
-            if (file.Extension == ".cs")
+            _file = file;
+        }
+
+        public IFormatter Create()
+        {
+            if (_file.Extension == ".cs")
             {
-                return new CSharpFormatter(file);
+                return new CSharpFormatter(_file);
             }
-            if (file.Extension == ".xls" || file.Extension == ".xlsx")
+            if (_file.Extension == ".xls" || _file.Extension == ".xlsx")
             {
-                return new ExcelFormatter(file);
+                return new ExcelFormatter(_file);
             }
             throw new NotImplementedException("Unsupported file type. Please use *.cs or *.xls");
         }
