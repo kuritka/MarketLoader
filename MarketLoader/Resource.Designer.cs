@@ -69,5 +69,36 @@ namespace MarketLoader {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   
+        ///    public class Quote 
+        ///    {
+        ///        public Quote()
+        ///        {
+        ///            Period = Period.Unknown;
+        ///        }
+        ///		     
+        ///        public string Symbol { get; set; }
+        ///        
+        ///        public Period Period { get; set; }
+        ///
+        ///        public DateTime DateTime { get; set; }
+        ///        
+        ///        public double Open { get; set; }
+        ///
+        ///        public double Close { get; set; }
+        ///        
+        ///        public double High { get; set; }
+        ///        
+        ///        public double Low { get; set; }
+        ///        
+        ///        public int Volume [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string NestedEntities {
+            get {
+                return ResourceManager.GetString("NestedEntities", resourceCulture);
+            }
+        }
     }
 }

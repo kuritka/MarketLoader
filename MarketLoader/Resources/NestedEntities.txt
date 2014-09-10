@@ -1,0 +1,114 @@
+  
+    public class Quote 
+    {
+        public Quote()
+        {
+            Period = Period.Unknown;
+        }
+		     
+        public string Symbol { get; set; }
+        
+        public Period Period { get; set; }
+
+        public DateTime DateTime { get; set; }
+        
+        public double Open { get; set; }
+
+        public double Close { get; set; }
+        
+        public double High { get; set; }
+        
+        public double Low { get; set; }
+        
+        public int Volume { get; set; }
+        
+        public int Interest { get; set; }
+
+        public override int GetHashCode()
+        {
+            return string.Format("{0}{1}",Symbol,DateTime.ToShortDateString()).GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return GetHashCode() == obj.GetHashCode();
+        }
+    }
+
+	public enum Period
+    {
+        Unknown = 0,
+
+        Hourly = 1,
+
+        Daily = 2,
+
+        Weekly = 4,
+
+        Monthly = 8      
+    }
+  
+    public enum Category
+    {
+        Currencies = 1,
+        Energies,
+        Financials,
+        GrainsAndOilseeds,
+        Indices,
+        Meats,
+        Metals,
+        Softs
+    }
+
+  public class Market
+    {
+        public Market(ContractSpecification contractSpecification, IEnumerable<Quote> quotes)
+        {
+            ContractSpecification = contractSpecification;
+            Quotes = quotes;
+        }
+
+        public ContractSpecification ContractSpecification { get; private set; }
+
+        public IEnumerable<Quote> Quotes { get; private set; }
+    }
+
+
+	 public  class ContractSpecification
+    {
+        public ContractSpecification(string exchange, string months, decimal pointValueUsd,
+                                        string symbol, string name, Category category,
+                                        decimal contractSize, string sizeUnit)
+        {
+            Exchange = exchange;
+            Months = months;
+            PointValueUsd = pointValueUsd;
+            Symbol = symbol;
+            Name = name;
+            Category = category;
+            ContractSize = contractSize;
+            SizeUnit = sizeUnit;
+        }
+
+        public string Name { get; private set; }
+
+        public string SizeUnit { get; private set; }
+
+        public decimal ContractSize { get; private set; }
+
+        public Category Category { get; private set; }
+
+        public string Exchange { get; private set; }
+
+        public string Months { get; private set; }
+
+        public decimal PointValueUsd { get; private set; }
+
+        public string Symbol { get; private set; }		
+
+		public static bool TryParse(string symbol, out Market contractSpecification)
+        {
+            contractSpecification = MarketContainer.FirstOrDefault(d => d.ContractSpecification.Symbol == symbol.ToUpperInvariant());
+            return contractSpecification != null;
+        }
+    }    
